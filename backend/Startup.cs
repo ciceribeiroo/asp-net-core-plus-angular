@@ -10,6 +10,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using aspnetcoreapp.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Cors;
 
 namespace aspnetcoreapp
 {
@@ -28,6 +30,7 @@ namespace aspnetcoreapp
             services.AddRazorPages();
             services.AddDbContext<PaymentDetailContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DevConnection")));
+            services.AddMvc();
             services.AddCors();
         }
 
@@ -50,17 +53,17 @@ namespace aspnetcoreapp
 
             app.UseRouting();
 
+            app.UseCors(option => option.WithOrigins("http://localhost:4200")
+                                        .AllowAnyMethod()
+                                        .AllowAnyHeader());
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
-
-            app.UseCors(options =>
-            options.WithOrigins("http://localhost:4200")
-            .AllowAnyMethod()
-            .AllowAnyHeader());
+            
         }
     }
 }

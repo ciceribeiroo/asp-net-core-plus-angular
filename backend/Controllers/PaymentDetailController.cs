@@ -6,11 +6,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using aspnetcoreapp.Models;
+using Microsoft.AspNetCore.Cors;
 
-namespace aspnetcoreapp.Controllers
+namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowSpecificOrigin")]
     public class PaymentDetailController : ControllerBase
     {
         private readonly PaymentDetailContext _context;
@@ -71,7 +73,6 @@ namespace aspnetcoreapp.Controllers
             return paymentDetail;
         }
 
-        // POST: api/PaymentDetail
         [HttpPost]
         public async Task<ActionResult<PaymentDetail>> PostPaymentDetail(PaymentDetail paymentDetail)
         {

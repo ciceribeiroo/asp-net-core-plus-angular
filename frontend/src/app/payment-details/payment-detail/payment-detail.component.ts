@@ -5,8 +5,7 @@ import { NgForm } from '@angular/forms';
 @Component({
   selector: 'app-payment-detail',
   templateUrl: './payment-detail.component.html',
-  styles: [
-  ],
+  styles: []
 })
 export class PaymentDetailComponent implements OnInit {
 
@@ -21,11 +20,11 @@ export class PaymentDetailComponent implements OnInit {
     if(form! = null)
         form.resetForm();
       this.service.formData={
-        PMId:0,
-        CardOwner:'',
-        CardNumber:'',
-        ExpirationDate:'',
-        CVV: ''
+        pmId:0,
+        cardOwner:'',
+        cardNumber:'',
+        expirationDate:'',
+        cvv: ''
       }
   }
 
@@ -39,5 +38,4 @@ export class PaymentDetailComponent implements OnInit {
       }
     )
   }
-
 }

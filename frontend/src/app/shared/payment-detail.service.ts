@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class PaymentDetailService {
   formData: PaymentDetail
-  readonly rootURL = 'https://localhost:5007/api';
+  readonly rootURL = 'http://localhost:5007/api';
 
   constructor(private http:HttpClient) { }
 
