@@ -28,10 +28,19 @@ namespace aspnetcoreapp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
-            services.AddDbContext<PaymentDetailContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("DevConnection")));
+            services.AddEntityFrameworkSqlServer().AddDbContext<PaymentDetailContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DevConnection"))
+            );
+            services.AddCors(options =>
+            {
+                options.AddPolicy("EnableCORS", builder =>
+                {
+                    builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().Build();
+                });
+            });
+            services.AddRouting(r => r.SuppressCheckForUnhandledSecurityMetadata = true);
+
             services.AddMvc();
-            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,21 +57,20 @@ namespace aspnetcoreapp
                 app.UseHsts();
             }
 
+            app.UseCors("EnableCORS");
+            app.Use((context, next) =>
+            {
+                context.Items["__CorsMiddlewareInvoked"] = true;
+                return next();
+            });
+            
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
 
             app.UseRouting();
 
-            app.UseCors(option => option.WithOrigins("http://localhost:4200")
-                                        .AllowAnyMethod()
-                                        .AllowAnyHeader());
-
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
             
         }
     }

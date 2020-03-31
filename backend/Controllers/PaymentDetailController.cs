@@ -76,6 +76,7 @@ namespace WebAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<PaymentDetail>> PostPaymentDetail(PaymentDetail paymentDetail)
         {
+            
             _context.PaymentDetails.Add(paymentDetail);
             await _context.SaveChangesAsync();
 
